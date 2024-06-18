@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private float gameStartTime;
     private float elapsedTime = 0f;
     private float highScore = 0f;
+    private AudioSource audioSource;
 
     public static event Action<float, float, int> OnTimeUpdated;
 
@@ -28,6 +29,11 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
         gameStartTime = Time.time;
         highScore = PlayerPrefs.GetFloat("HighScore", 0f);
     }
@@ -42,6 +48,7 @@ public class GameManager : MonoBehaviour
         // 게임 오버
         if (isGameCheck)
         {
+            audioSource.Play();
             SavePlayerData();
             StartCoroutine(StopTimeAfterDelay(0.7f));
             isGameCheck = false;

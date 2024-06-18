@@ -7,15 +7,9 @@ public class ObstacleCollision : MonoBehaviour
     public GameObject collisionParticlesPrefab;
     private GameManager gameManager;
     private ParticleSystem collisionParticles;
-    private AudioSource audioSource;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
         gameManager = GameManager.Instance;
         if (collisionParticlesPrefab != null)
         {
@@ -38,11 +32,10 @@ public class ObstacleCollision : MonoBehaviour
     {
         if (obj.CompareTag("Obstacle"))
         {
-            if (collisionParticles != null && audioSource != null)
+            if (collisionParticles != null)
             {
                 collisionParticles.transform.position = obj.transform.position;
                 collisionParticles.Play();
-                audioSource.Play();
             }
 
             StartCoroutine(PlayParticles());

@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Move()
     {
+        LookAt();
         isMoving = true;
         Vector3 startPosition = rb.position;
         Vector3 targetPosition = rb.position + new Vector3(moveInput.x, 0.35f, moveInput.y);
@@ -74,6 +75,16 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(targetPosition);
         isMoving = false;
         moveInput = Vector2.zero;
+    }
+
+    void LookAt()
+    {
+        if (moveInput != Vector2.zero)
+        {
+            float targetAngle = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+            rb.rotation = targetRotation;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
